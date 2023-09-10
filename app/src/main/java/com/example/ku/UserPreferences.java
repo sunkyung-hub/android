@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import java.util.Set;
 
 public class UserPreferences extends PreferenceFragmentCompat {
     @Override
@@ -45,5 +48,30 @@ public class UserPreferences extends PreferenceFragmentCompat {
                 startActivity(intent);
             return true;
         });
+
+        //MultiSelectlistPrefernce 푸시알림설정 | 변경 사항 감지
+        MultiSelectListPreference pushPreference = findPreference("push");
+        if (pushPreference != null) {
+            pushPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    // newValue에는 선택한 카테고리 목록이 포함됩니다.
+                    Set<String> selectedCategories = (Set<String>) newValue;
+
+                    if (selectedCategories != null && !selectedCategories.isEmpty()) {
+                        // 여기에서 푸시 알림 서비스를 호출하고 알림을 표시하세요.
+                        displayPushNotification(selectedCategories);
+                    }
+
+                    return true; // 변경 사항을 저장하려면 true를 반환합니다.
+                }
+            });
+        }
+    }
+
+    private void displayPushNotification(Set<String> selectedCategories) {
+        // 여기에서 실제 푸시 알림을 표시하는 코드를 작성하세요.
+        // NotificationManager 및 NotificationCompat을 사용하여 알림을 만들고 표시합니다.
     }
 }
+

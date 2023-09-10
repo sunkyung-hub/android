@@ -3,7 +3,13 @@ package com.example.ku;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -23,12 +29,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private MenuItem selectedItem;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
-    private RecyclerView mPostRecyclerView;
-    private BoardAdapter mAdapter;
-    private List<Board> mDatas;
 
     HomeFragment homeFragment;
     SearchFragment searchFragment;
@@ -85,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
+                // 모든 메뉴 아이템의 체크를 초기화
+                // Menu 객체를 사용하여 모든 아이템 순회 setChecked(false)로 설정
+                Menu menu = navigationView.getMenu();
+                for (int i = 0; i < menu.size(); i++) {
+                    menu.getItem(i).setChecked(false);
+                }
+
+                // 선택한 메뉴 아이템의 배경 색상 변경
+                // 메뉴 아이템의 setTitle() 호출, SpannalbeString을 사용하여 배경 색상 설정
+                // 아이템 선택시, 정해놓은 색상으로 변하되 볼드체가 됨, 다른 아이템을 고르면 볼드체 해제되며 정해놓은 색상됨.
+                SpannableString s = new SpannableString(menuItem.getTitle());
+                s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                menuItem.setTitle(s);
+
                 switch(menuItem.getItemId()){
                     case R.id.nav_one:
                         menuItem.setChecked(true);
@@ -178,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
                 switch(item.getItemId()){
                     case R.id.menu:
 //                        getSupportFragmentManager().beginTransaction()
@@ -205,20 +224,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //list_rv is recyclerview id in fragment_gong1
-        mPostRecyclerView = findViewById(R.id.list_rv);
-        mDatas = new ArrayList<>();
-        mDatas.add(new Board("title1", "contents1", "time1", "writer1"));
-        mDatas.add(new Board("title2", "contents2", "time2", "writer2"));
-        mDatas.add(new Board("title3", "contents3", "time3", "writer3"));
-        mDatas.add(new Board("title4", "contents4", "time4", "writer4"));
-
-        mAdapter = new BoardAdapter(mDatas);
-        mPostRecyclerView.setAdapter(mAdapter);
-        mPostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
     private void displayMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
-안녕하세요

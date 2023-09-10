@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+
 public class Gong2Fragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            Log.d("IpHakFragment", "onCreateView: Fragment created");
+            return inflater.inflate(R.layout.fragment_gong2, container, false);
+        }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Log.d("HaksaFragment", "onCreateView: Fragment created");
-        return inflater.inflate(R.layout.fragment_gong2, container, false);
     }
-
-}
