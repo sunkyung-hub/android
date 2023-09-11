@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     Gong7Fragment gong7Fragment;
     Gong8Fragment gong8Fragment;
     Gong9Fragment gong9Fragment;
-    Gong10Fragment gong10Fragment;
     UserPreferences userPreferences;
 
 
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         gong7Fragment = new Gong7Fragment();
         gong8Fragment = new Gong8Fragment();
         gong9Fragment = new Gong9Fragment();
-        gong10Fragment = new Gong10Fragment();
         userPreferences = new UserPreferences();
 
         getSupportFragmentManager().beginTransaction()
@@ -174,14 +172,6 @@ public class MainActivity extends AppCompatActivity {
                         displayMessage("단과대학 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong9Fragment)
-                                .commit();
-                        drawerLayout.closeDrawers();
-                        return true;
-
-                    case R.id.nav_ten:
-                        menuItem.setChecked(true);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.containers, gong10Fragment)
                                 .commit();
                         drawerLayout.closeDrawers();
                         return true;
