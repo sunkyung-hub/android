@@ -8,34 +8,26 @@
 
         <item
             android:id="@+id/nav_two"
-            android:title="입학"/>
-
-        <item
-            android:id="@+id/nav_three"
             android:title="장학"/>
 
         <item
-            android:id="@+id/nav_four"
+            android:id="@+id/nav_three"
             android:title="취창업"/>
 
         <item
-            android:id="@+id/nav_five"
+            android:id="@+id/nav_four"
             android:title="국제교류"/>
 
         <item
-            android:id="@+id/nav_six"
-            android:title="입찰"/>
-
-        <item
-            android:id="@+id/nav_seven"
+            android:id="@+id/nav_five"
             android:title="일반"/>
 
         <item
-            android:id="@+id/nav_eight"
+            android:id="@+id/nav_six"
             android:title="도서관"/>
 
         <item
-            android:id="@+id/nav_nine"
+            android:id="@+id/nav_seven"
             android:title="단과대학"/>
 
     </group>

@@ -3,14 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Gong3Fragment">
 
-    <TextView
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textSize="30sp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:text="학사 fragment" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:text="장학 fragment" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -9,18 +9,17 @@
         android:id="@+id/item_notice_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8sp"
-        android:layout_marginLeft="8sp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="TITLE"/>
+        android:layout_marginTop="9dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="17sp"
+        android:text="title"/>
 
     <TextView
         android:id="@+id/item_notice_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:textSize="16sp"
-        android:text="Date"/>
+        android:layout_marginLeft="15dp"
+        android:textSize="15sp"
+        android:text="date"/>
 
 </LinearLayout>

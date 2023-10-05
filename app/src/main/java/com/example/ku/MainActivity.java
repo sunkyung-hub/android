@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -16,15 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     Gong5Fragment gong5Fragment;
     Gong6Fragment gong6Fragment;
     Gong7Fragment gong7Fragment;
-    Gong8Fragment gong8Fragment;
-    Gong9Fragment gong9Fragment;
     UserPreferences userPreferences;
 
 
@@ -63,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = new SearchFragment();
         settingFragment = new SettingFragment();
         menuFragment = new MenuFragment();
-        settingFragment = new SettingFragment();
 
         gong1Fragment = new Gong1Fragment();
         gong2Fragment = new Gong2Fragment();
@@ -72,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         gong5Fragment = new Gong5Fragment();
         gong6Fragment = new Gong6Fragment();
         gong7Fragment = new Gong7Fragment();
-        gong8Fragment = new Gong8Fragment();
-        gong9Fragment = new Gong9Fragment();
         userPreferences = new UserPreferences();
 
         getSupportFragmentManager().beginTransaction()
@@ -113,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_two:
                         menuItem.setChecked(true);
+                        displayMessage("장학 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong2Fragment)
                                 .commit();
@@ -121,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_three:
                         menuItem.setChecked(true);
+                        displayMessage("취창업 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong3Fragment)
                                 .commit();
@@ -129,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_four:
                         menuItem.setChecked(true);
+                        displayMessage("국제교류 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong4Fragment)
                                 .commit();
@@ -137,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_five:
                         menuItem.setChecked(true);
+                        displayMessage("일반 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong5Fragment)
                                 .commit();
@@ -145,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_six:
                         menuItem.setChecked(true);
+                        displayMessage("도서관 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong6Fragment)
                                 .commit();
@@ -153,25 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_seven:
                         menuItem.setChecked(true);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.containers, gong7Fragment)
-                                .commit();
-                        drawerLayout.closeDrawers();
-                        return true;
-
-                    case R.id.nav_eight:
-                        menuItem.setChecked(true);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.containers, gong8Fragment)
-                                .commit();
-                        drawerLayout.closeDrawers();
-                        return true;
-
-                    case R.id.nav_nine:
-                        menuItem.setChecked(true);
                         displayMessage("단과대학 selected");
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.containers, gong9Fragment)
+                                .replace(R.id.containers, gong7Fragment)
                                 .commit();
                         drawerLayout.closeDrawers();
                         return true;

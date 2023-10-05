@@ -6,13 +6,13 @@
     android:orientation="vertical"
     tools:context=".Gong1Fragment">
 
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="30sp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:gravity="center_horizontal"-->
-<!--        android:text="학사 fragment" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textSize="30sp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:text="학사 fragment" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

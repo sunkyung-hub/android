@@ -2,11 +2,9 @@
 <resources>
     <string-array name="push">
         <item>학사</item>
-        <item>입학</item>
         <item>장학</item>
         <item>취창업</item>
         <item>국제교류</item>
-        <item>입찰</item>
         <item>일반</item>
         <item>도서관</item>
         <item>단과대학</item>
