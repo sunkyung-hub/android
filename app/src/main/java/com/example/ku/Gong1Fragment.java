@@ -5,10 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +21,7 @@ import java.util.List;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -26,19 +30,20 @@ public class Gong1Fragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NoticeAdapter mNoticeAdapter;
     private ArrayList<NoticeItem> mNoticeItems;
+    private ProgressBar progressBar; // ProgressBar 추가
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gong1, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mNoticeAdapter = new NoticeAdapter(getContext());
+        progressBar = view.findViewById(R.id.progressBar); // ProgressBar 초기화
+
+        // mNoticeItems를 초기화합니다.
+        mNoticeItems = new ArrayList<>();
+        mNoticeAdapter = new NoticeAdapter(getContext(), mNoticeItems);
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // DividerItemDecoration 추가
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
 
         // Firebase Firestore 데이터베이스 초기화
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -46,9 +51,12 @@ public class Gong1Fragment extends Fragment {
         // Firestore 컬렉션 경로 설정 (예: "notices")
         String collectionPath = "학사";
 
+        // 데이터를 가져오기 전에 ProgressBar를 표시
+        progressBar.setVisibility(View.VISIBLE);
+
         // Firestore 컬렉션에서 데이터 가져오기
         db.collection(collectionPath)
-                .orderBy("order")
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -66,13 +74,18 @@ public class Gong1Fragment extends Fragment {
                     } else {
                         Log.e("Firestore", "데이터 가져오기 실패", task.getException());
                     }
+                    // 데이터를 가져온 후 ProgressBar를 숨깁니다.
+                    progressBar.setVisibility(View.GONE);
+
                 });
 
-        // mNoticeItems를 초기화해야 합니다.
-        mNoticeItems = new ArrayList<>();
-
-        mNoticeAdapter.setNoticeList(mNoticeItems);
+        // Swipe 기능 추가
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         return view;
     }
 }
+
+//ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+//itemTouchHelper.attachToRecyclerView(recyclerView);

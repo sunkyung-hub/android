@@ -19,21 +19,19 @@ import java.util.List;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class Gong2Fragment extends Fragment {
+public class Dan2Fragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private NoticeAdapter mNoticeAdapter;
-
     private ArrayList<NoticeItem> mNoticeItems;
     private ProgressBar progressBar; // ProgressBar 추가
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gong1, container, false);
+        View view = inflater.inflate(R.layout.fragment_dan2, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar); // ProgressBar 초기화
@@ -48,14 +46,14 @@ public class Gong2Fragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Firestore 컬렉션 경로 설정 (예: "notices")
-        String collectionPath = "장학";
+        String collectionPath = "컴퓨터공학";
 
         // 데이터를 가져오기 전에 ProgressBar를 표시
         progressBar.setVisibility(View.VISIBLE);
 
         // Firestore 컬렉션에서 데이터 가져오기
         db.collection(collectionPath)
-                .orderBy("date", Query.Direction.DESCENDING)
+                .orderBy("order")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

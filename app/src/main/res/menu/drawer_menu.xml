@@ -23,12 +23,15 @@
             android:title="일반"/>
 
         <item
-            android:id="@+id/nav_six"
-            android:title="도서관"/>
+            android:title="단과대학">
 
-        <item
-            android:id="@+id/nav_seven"
-            android:title="단과대학"/>
+            <!-- 단과대학의 하위 메뉴 -->
+            <menu>
+                <item
+                    android:id="@+id/nav_seven"
+                    android:title="과학기술대학" />
+            </menu>
+        </item>
 
     </group>
 </menu>

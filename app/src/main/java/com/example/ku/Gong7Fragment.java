@@ -1,104 +1,62 @@
 package com.example.ku;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.firebase.Timestamp;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class Gong7Fragment extends Fragment {
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        Log.d("HaksaFragment", "onCreateView: Fragment created");
-//        return inflater.inflate(R.layout.fragment_gong1, container, false);
-//    }
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
 
-    private RecyclerView mRecyclerView;
-    private NoticeAdapter mNoticeAdapter;
-    private ArrayList<NoticeItem> mNoticeItems;
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gong7, container, false);
 
-        mRecyclerView = view.findViewById(R.id.recyclerView);
-        mNoticeAdapter = new NoticeAdapter(getContext());
-        mRecyclerView.setAdapter(mNoticeAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        viewPager = view.findViewById(R.id.pager);
+        tabLayout = view.findViewById(R.id.tabLayout);
 
-//        // DividerItemDecoration 추가
-//        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
-//        mRecyclerView.addItemDecoration(itemDecoration);
-//        mNoticeItems = new ArrayList<>();
+        // ViewPager2 어댑터 생성
+        ViewPager2Adapter viewPager2Adapter = new ViewPager2Adapter(getChildFragmentManager(), getLifecycle());
+        viewPager.setAdapter(viewPager2Adapter);
 
-        // DividerItemDecoration 추가
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
+        // ViewPager2에서 swipe 비활성화
+        viewPager.setUserInputEnabled(false); // Swipe 비활성화
 
-        // Firebase Firestore 데이터베이스 초기화
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Firestore 컬렉션 경로 설정 (예: "notices")
-        String collectionPath = "단과대학";
-
-        // Firestore 컬렉션에서 데이터 가져오기
-        db.collection(collectionPath)
-                .orderBy("order")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        mNoticeItems.clear(); // 기존 데이터 지우기
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Firestore 문서를 NoticeItem 객체로 변환하여 리스트에 추가
-                            NoticeItem noticeItem = document.toObject(NoticeItem.class);
-                            if (document.contains("date")) {
-                                String dateString = document.getString("date"); // 문자열로 저장된 날짜 가져오기
-                                noticeItem.setDate(dateString);
-                            }
-                            mNoticeItems.add(noticeItem);
-                        }
-                        mNoticeAdapter.setNoticeList(mNoticeItems); // RecyclerView 업데이트
-                    } else {
-                        Log.e("Firestore", "데이터 가져오기 실패", task.getException());
+        // TabLayout에 ViewPager2를 연결
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    // 탭의 텍스트 설정
+                    switch (position) {
+                        case 0:
+                            tab.setText("메카트로닉스공학과");
+                            break;
+                        case 1:
+                            tab.setText("컴퓨터공학과");
+                            break;
+                        case 2:
+                            tab.setText("바이오메디컬공학과");
+                            break;
+                        case 3:
+                            tab.setText("녹색기술융합학과");
+                            break;
+                        case 4:
+                            tab.setText("응용화학과");
+                            break;
+                        // 다른 탭 추가
                     }
-                });
-
-        // mNoticeItems를 초기화해야 합니다.
-        mNoticeItems = new ArrayList<>();
-
-        mNoticeAdapter.setNoticeList(mNoticeItems);
+                }
+        ).attach();
 
         return view;
     }
 }
-
-//    // ViewHolder 클래스를 확장하는 내부 클래스
-//    private class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView title;
-//        TextView date;
-//
-//        public MyViewHolder(View itemView) {
-//            super(itemView);
-//            title = itemView.findViewById(R.id.item_notice_title);
-//            date = itemView.findViewById(R.id.item_notice_date);
-//        }
-//    }
-//}

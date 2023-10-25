@@ -18,39 +18,29 @@ import java.util.List;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class Gong6Fragment extends Fragment {
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        Log.d("HaksaFragment", "onCreateView: Fragment created");
-//        return inflater.inflate(R.layout.fragment_gong1, container, false);
-//    }
-
     private RecyclerView mRecyclerView;
     private NoticeAdapter mNoticeAdapter;
+
     private ArrayList<NoticeItem> mNoticeItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gong6, container, false);
+        View view = inflater.inflate(R.layout.fragment_gong1, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mNoticeAdapter = new NoticeAdapter(getContext());
+        // mNoticeItems를 초기화합니다.
+        mNoticeItems = new ArrayList<>();
+        mNoticeAdapter = new NoticeAdapter(getContext(), mNoticeItems);
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-//        // DividerItemDecoration 추가
-//        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
-//        mRecyclerView.addItemDecoration(itemDecoration);
-//        mNoticeItems = new ArrayList<>();
-
-        // DividerItemDecoration 추가
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(itemDecoration);
 
         // Firebase Firestore 데이터베이스 초기화
@@ -61,7 +51,7 @@ public class Gong6Fragment extends Fragment {
 
         // Firestore 컬렉션에서 데이터 가져오기
         db.collection(collectionPath)
-                .orderBy("order")
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -89,16 +79,3 @@ public class Gong6Fragment extends Fragment {
         return view;
     }
 }
-
-//    // ViewHolder 클래스를 확장하는 내부 클래스
-//    private class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView title;
-//        TextView date;
-//
-//        public MyViewHolder(View itemView) {
-//            super(itemView);
-//            title = itemView.findViewById(R.id.item_notice_title);
-//            date = itemView.findViewById(R.id.item_notice_date);
-//        }
-//    }
-//}

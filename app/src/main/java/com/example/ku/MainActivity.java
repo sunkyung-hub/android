@@ -22,16 +22,13 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private MenuItem selectedItem;
+//    private MenuItem selectedItem;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment;
     SearchFragment searchFragment;
-    //    SettingFragment settingFragment;
-    MenuFragment menuFragment;
-    SettingFragment settingFragment;
     Gong1Fragment gong1Fragment;
     Gong2Fragment gong2Fragment;
     Gong3Fragment gong3Fragment;
@@ -40,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
     Gong6Fragment gong6Fragment;
     Gong7Fragment gong7Fragment;
     UserPreferences userPreferences;
+    BookmarkFragment bookmarkFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolBar);
-//        setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         homeFragment = new HomeFragment();
         searchFragment = new SearchFragment();
-        settingFragment = new SettingFragment();
-        menuFragment = new MenuFragment();
 
         gong1Fragment = new Gong1Fragment();
         gong2Fragment = new Gong2Fragment();
@@ -64,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         gong7Fragment = new Gong7Fragment();
         userPreferences = new UserPreferences();
 
+        bookmarkFragment = new BookmarkFragment();
+
+        // 시작화면을 홈화면으로 설정
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containers, homeFragment)
                 .commit();
@@ -135,18 +135,18 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         return true;
 
-                    case R.id.nav_six:
-                        menuItem.setChecked(true);
-                        displayMessage("도서관 selected");
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.containers, gong6Fragment)
-                                .commit();
-                        drawerLayout.closeDrawers();
-                        return true;
+//                    case R.id.nav_six:
+//                        menuItem.setChecked(true);
+//                        displayMessage("도서관 selected");
+//                        getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.containers, gong6Fragment)
+//                                .commit();
+//                        drawerLayout.closeDrawers();
+//                        return true;
 
                     case R.id.nav_seven:
                         menuItem.setChecked(true);
-                        displayMessage("단과대학 selected");
+                        displayMessage("과학기술대학 selected");
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong7Fragment)
                                 .commit();
@@ -159,10 +159,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         NavigationBarView navigationBarView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.home); // "Home" 버튼 선택
+
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
 
                 switch(item.getItemId()){
                     case R.id.menu:
@@ -195,4 +196,25 @@ public class MainActivity extends AppCompatActivity {
     private void displayMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    //toolbar 홈화면에 보이게
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    //보관함 아이콘 클릭하면 해당 fragment로 이동가능
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.saveButton:
+                    getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.containers, bookmarkFragment)
+                    .commit();
+                    return true;
+        }
+        return false;
+    }
 }
+

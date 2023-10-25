@@ -11,6 +11,7 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_activity); //xml , java 소스 연결
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
