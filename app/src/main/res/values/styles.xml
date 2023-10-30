@@ -9,4 +9,5 @@ Theme.AppCompat.Light.NoActionBar로 변경하여 액션바를 없앰. -->
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@color/white</item>
     </style>
+
 </resources>

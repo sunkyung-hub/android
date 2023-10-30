@@ -1,5 +1,7 @@
 package com.example.ku;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,6 +36,12 @@ public class Gong1Fragment extends Fragment {
     private ArrayList<NoticeItem> mNoticeItems;
     private ProgressBar progressBar; // ProgressBar 추가
 
+    // Firebase Firestore 데이터베이스 초기화
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    // Firestore 컬렉션 경로 설정 (예: "notices")
+    String collectionPath = "학사";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gong1, container, false);
@@ -45,14 +55,10 @@ public class Gong1Fragment extends Fragment {
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Firebase Firestore 데이터베이스 초기화
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Firestore 컬렉션 경로 설정 (예: "notices")
-        String collectionPath = "학사";
 
         // 데이터를 가져오기 전에 ProgressBar를 표시
         progressBar.setVisibility(View.VISIBLE);
+
 
         // Firestore 컬렉션에서 데이터 가져오기
         db.collection(collectionPath)
@@ -80,12 +86,18 @@ public class Gong1Fragment extends Fragment {
                 });
 
         // Swipe 기능 추가
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter));
+        // RecyclerView에 Swipe 기능 추가 (보관함 화면임을 나타내는 isArchiveScreen 변수 추가)
+        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, false, getContext(), mRecyclerView));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+
+//        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
+//        String buttonLabel = "저장"; // 버튼 레이블 설정
+//        int buttonColor = Color.GREEN; // 버튼 색상 설정
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, false, getContext()));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         return view;
     }
 }
-
-//ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
-//itemTouchHelper.attachToRecyclerView(recyclerView);

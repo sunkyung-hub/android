@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="430dp">
+            android:layout_height="460dp">
 
             <LinearLayout
                 android:id="@+id/categoryLayout"
@@ -29,34 +29,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="학사"
-                    android:layout_marginBottom="67dp"
+                    android:layout_marginBottom="60dp"
                     android:layout_marginStart="12dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="장학"
-                    android:layout_marginBottom="65dp"
+                    android:layout_marginBottom="58dp"
                     android:layout_marginStart="12dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="취창업"
-                    android:layout_marginBottom="67dp"
+                    android:layout_marginBottom="60dp"
                     android:layout_marginStart="12dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="58dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginBottom="67dp"
                     android:text="국제교류" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="일반"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginStart="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="행사"
                     android:layout_marginBottom="0dp"
                     android:layout_marginStart="12dp"/>
 
@@ -66,8 +73,8 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/categoryLayout"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@+id/categoryLayout" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

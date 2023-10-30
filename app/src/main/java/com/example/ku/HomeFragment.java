@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Firestore 컬렉션 경로 설정
-        String[] collectionPaths = {"학사", "장학", "취창업", "국제교류", "일반"};
+        String[] collectionPaths = {"학사", "장학", "취창업", "국제교류", "일반", "행사"};
 
         mNoticeItems.clear(); // 기존 데이터 지우기
 

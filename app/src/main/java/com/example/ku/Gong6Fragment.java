@@ -1,14 +1,20 @@
 package com.example.ku;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,28 +32,32 @@ public class Gong6Fragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private NoticeAdapter mNoticeAdapter;
-
     private ArrayList<NoticeItem> mNoticeItems;
+    private ProgressBar progressBar; // ProgressBar 추가
+
+    // Firebase Firestore 데이터베이스 초기화
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    // Firestore 컬렉션 경로 설정 (예: "notices")
+    String collectionPath = "행사";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gong1, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar); // ProgressBar 초기화
+
         // mNoticeItems를 초기화합니다.
         mNoticeItems = new ArrayList<>();
         mNoticeAdapter = new NoticeAdapter(getContext(), mNoticeItems);
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
 
-        // Firebase Firestore 데이터베이스 초기화
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // 데이터를 가져오기 전에 ProgressBar를 표시
+        progressBar.setVisibility(View.VISIBLE);
 
-        // Firestore 컬렉션 경로 설정 (예: "notices")
-        String collectionPath = "도서관";
 
         // Firestore 컬렉션에서 데이터 가져오기
         db.collection(collectionPath)
@@ -69,12 +79,16 @@ public class Gong6Fragment extends Fragment {
                     } else {
                         Log.e("Firestore", "데이터 가져오기 실패", task.getException());
                     }
+                    // 데이터를 가져온 후 ProgressBar를 숨깁니다.
+                    progressBar.setVisibility(View.GONE);
+
                 });
 
-        // mNoticeItems를 초기화해야 합니다.
-        mNoticeItems = new ArrayList<>();
-
-        mNoticeAdapter.setNoticeList(mNoticeItems);
+        // Swipe 기능 추가
+        // RecyclerView에 Swipe 기능 추가 (보관함 화면임을 나타내는 isArchiveScreen 변수 추가)
+//        Drawable deleteIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, deleteIcon, false, getContext()));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         return view;
     }

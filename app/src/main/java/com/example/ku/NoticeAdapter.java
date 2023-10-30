@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -78,6 +80,26 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
                 }
             }
         });
+
+        // "더보기" 버튼 숨기기
+        holder.moreButton.setVisibility(View.GONE);
+
+//        // Swipe 동작 리스너를 사용하여 swipe 동작이 완료되면 버튼을 표시
+//        new ItemTouchHelper(new SwipeCallback(this, ...)).attachToRecyclerView(recyclerView);
+
+        // "더보기" 버튼 클릭 이벤트 처리
+        holder.moreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int clickedPosition = holder.getAdapterPosition();
+                if (clickedPosition != RecyclerView.NO_POSITION) {
+                    // 버튼이 클릭된 항목의 데이터에 액세스하여 원하는 동작 수행
+                    NoticeItem item = mNoticeList.get(clickedPosition);
+
+                    // 여기에서 저장 또는 삭제 동작을 수행할 수 있습니다.
+                }
+            }
+        });
     }
 
     //RecyclerView에 표시할 아이템의 총 개수를 반환. mNoticeList의 크기를 반환. 0일경우 아무것도 표시되지 않음
@@ -89,11 +111,14 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView date;
+        Button moreButton; // '더보기' 버튼 추가
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.item_notice_title);
             date = itemView.findViewById(R.id.item_notice_date);
+            moreButton = itemView.findViewById(R.id.moreButton); // '더보기' 버튼 참조 추가
         }
 
         void onBind(NoticeItem item) {

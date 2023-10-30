@@ -46,8 +46,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
+//        toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("KURIMI"); // 초기 화면 타이틀 설정
+
 
         homeFragment = new HomeFragment();
         searchFragment = new SearchFragment();
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong1Fragment)
                                 .commit();
+                        getSupportActionBar().setTitle("학사");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -105,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong2Fragment)
                                 .commit();
+                        getSupportActionBar().setTitle("장학");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -114,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong3Fragment)
                                 .commit();
+                        getSupportActionBar().setTitle("취창업");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong4Fragment)
                                 .commit();
+                        getSupportActionBar().setTitle("국제교류");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -135,14 +144,15 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         return true;
 
-//                    case R.id.nav_six:
-//                        menuItem.setChecked(true);
-//                        displayMessage("도서관 selected");
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.containers, gong6Fragment)
-//                                .commit();
-//                        drawerLayout.closeDrawers();
-//                        return true;
+                    case R.id.nav_six:
+                        menuItem.setChecked(true);
+                        displayMessage("행사 selected");
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.containers, gong6Fragment)
+                                .commit();
+                    getSupportActionBar().setTitle("행사");
+                        drawerLayout.closeDrawers();
+                        return true;
 
                     case R.id.nav_seven:
                         menuItem.setChecked(true);
@@ -150,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, gong7Fragment)
                                 .commit();
+                        getSupportActionBar().setTitle("과학기술대학");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -176,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.containers, homeFragment)
                                 .commit();
+                        getSupportActionBar().setTitle("KURIMI");
                         return true;
                     case R.id.search:
                         getSupportFragmentManager().beginTransaction()
@@ -212,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction()
                     .replace(R.id.containers, bookmarkFragment)
                     .commit();
+                getSupportActionBar().setTitle("KURIMI");
                     return true;
         }
         return false;

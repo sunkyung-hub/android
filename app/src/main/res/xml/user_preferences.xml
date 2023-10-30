@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <SwitchPreference-->
-<!--        android:key="sound"-->
-<!--        android:title="알림 설정" />-->
-
-<!--    <MultiSelectListPreference-->
-<!--        android:key="push"-->
-<!--        android:title="카테고리"-->
-<!--        android:summary="알림 받을 카테고리를 선택하세요"-->
-<!--        android:entries="@array/push"-->
-<!--        android:entryValues="@array/push"-->
-<!--        android:dependency="sound"/>-->
-
     <PreferenceCategory
         android:title="퀵링크">
         <Preference
@@ -20,7 +8,7 @@
             android:key="link1"/>
         <Preference
             android:title="생활관"
-            android:key="link2"/>
+            android:key="link2" />
         <Preference
             android:title="학생포털"
             android:key="link3"/>
@@ -30,6 +18,3 @@
     </PreferenceCategory>
 
 </PreferenceScreen>
-
-
-

@@ -1,5 +1,6 @@
 package com.example.ku;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,10 +71,11 @@ public class Dan1Fragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                 });
 
-        // mNoticeItems를 초기화해야 합니다.
-        mNoticeItems = new ArrayList<>();
-
-        mNoticeAdapter.setNoticeList(mNoticeItems);
+        // Swipe 기능 추가
+//        // RecyclerView에 Swipe 기능 추가 (보관함 화면임을 나타내는 isArchiveScreen 변수 추가)
+//        Drawable deleteIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, deleteIcon, false, getContext()));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         return view;
     }

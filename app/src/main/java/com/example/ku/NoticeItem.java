@@ -7,9 +7,7 @@ public class NoticeItem {
     private String title;
     private String date; // Timestamp 대신 String으로 변경
     private String homepageUrl; // 홈페이지 URL 필드 추가
-    private int order;
-    private String documentId; // Firestore 문서 ID
-
+    private double order;
 
     // 기본 생성자 (인자 없음)
     public NoticeItem() {
@@ -54,11 +52,11 @@ public class NoticeItem {
         this.homepageUrl = homepageUrl;
     }
 
-    public int getOrder() {
+    public double getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    public void setOrder(double order) {
         this.order = order;
     }
 

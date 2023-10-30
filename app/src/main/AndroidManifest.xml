@@ -27,7 +27,7 @@
         </activity>
         <activity android:name="MainActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".PreferencesActivity"/>
+
 
         <!--   서비스를 추가하고 인텐트 필터를 설정한다.   -->
     </application>

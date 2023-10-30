@@ -1,5 +1,7 @@
 package com.example.ku;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,11 +39,11 @@ public class BookmarkFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Firestore 컬렉션 경로 (예: "archives")
-        String collectionPath = "보관함";
+        String collectionPath = "archives";
 
         // Firestore에서 저장된 공지사항을 검색하는 쿼리 설정
         db.collection(collectionPath)
-                .orderBy("date", Query.Direction.DESCENDING)
+                .orderBy("order", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -67,6 +70,18 @@ public class BookmarkFragment extends Fragment {
                         view.findViewById(R.id.progressBar).setVisibility(View.GONE);
                     }
                 });
+
+        // RecyclerView에 Swipe 기능 추가 (보관함 화면임을 나타내는 isArchiveScreen 변수 추가)
+        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_delete); // 삭제 아이콘 리소스
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, true, getContext(), mRecyclerView));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+//        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_delete); // 삭제 아이콘 리소스
+//        String buttonLabel = "삭제"; // 버튼 레이블 설정
+//        int buttonColor = Color.RED; // 버튼 색상 설정
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, true, getContext()));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
 
         return view;
     }
