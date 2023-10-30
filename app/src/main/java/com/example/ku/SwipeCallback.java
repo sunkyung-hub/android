@@ -65,6 +65,12 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
             if (isArchiveScreen) {
                 // 보관함 화면인 경우, 삭제 동작 수행
                 deleteItemFromArchive(item);
+
+                // 아이템을 어댑터에서 삭제
+                mAdapter.removeItem(item);
+
+                // RecyclerView 갱신
+                mAdapter.notifyDataSetChanged();
             } else {
                 // 공지사항 화면인 경우, 저장 동작 수행
                 copyItemToArchive(item);
@@ -73,26 +79,38 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
             // 스와이프를 되돌립니다.
             mAdapter.notifyItemChanged(position);
 
+
             // SnackBar 또는 Toast 메시지 표시
             if (isArchiveScreen) {
                 Snackbar.make(recyclerView, "아이템이 삭제되었습니다.", Snackbar.LENGTH_LONG)
-                        .setAction("실행 취소", new View.OnClickListener() {
+                        .setAction("삭제 취소", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 // 삭제 작업 실행 취소
                                 undoDeleteItemFromArchive(item, position);
+                                Snackbar.make(recyclerView, "삭제가 취소되었습니다.", Snackbar.LENGTH_LONG);
+                                // 아이템을 어댑터에 다시 저장
+                                mAdapter.addItem(item);
+
+                                // RecyclerView 갱신
+                                mAdapter.notifyDataSetChanged();
                             }
                         }).show();
             } else {
                 Snackbar.make(recyclerView, "아이템이 저장되었습니다.", Snackbar.LENGTH_LONG)
-                        .setAction("실행 취소", new View.OnClickListener() {
+                        .setAction("저장 취소", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 // 저장 작업 실행 취소
                                 undoCopyItemToArchive(item, position);
+
+                                Snackbar.make(recyclerView, "저장이 취소되었습니다.", Snackbar.LENGTH_LONG);
+
                             }
                         }).show();
             }
+            // 스와이프 작업이 적용된 후 RecyclerView를 갱신
+            mAdapter.notifyDataSetChanged();
         }
     }
 

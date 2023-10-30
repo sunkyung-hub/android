@@ -1,10 +1,12 @@
 package com.example.ku;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<NoticeItem> mNoticeList;
     private NoticeAdapter mnoticeAdapter;
     private FirebaseFirestore db;
+    private List<Task<QuerySnapshot>> taskList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,71 +51,85 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(mnoticeAdapter);
 
         db = FirebaseFirestore.getInstance();
+        taskList = new ArrayList<>();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                handleSearchTextChange(query);
+
+                // 검색 버튼을 누르면 키보드를 숨깁니다
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // 공지사항 리스트를 초기화합니다.
-                mNoticeList.clear();
-
-                // 검색어가 비어 있는 경우, 빈 화면을 유지하도록 합니다.
-                if (newText.isEmpty()) {
-                    mnoticeAdapter.notifyDataSetChanged();
-                    return true;
-                }
-
-                // 검색어를 공백으로 분리합니다.
-                String[] keywords = newText.split(" ");
-
-                // 각 컬렉션에서 검색어를 포함하는 데이터를 가져와서 리스트에 추가합니다.
-                for (String keyword : keywords) {
-                    searchCollection("학사", keyword);
-                    searchCollection("장학", keyword);
-                    searchCollection("취창업", keyword);
-                    searchCollection("국제교류", keyword);
-                    searchCollection("일반", keyword);
-                }
-
-                // 어댑터에 데이터 변경을 알립니다.
-                mnoticeAdapter.notifyDataSetChanged();
-
-                return true;
+                return false; // 빈 값을 반환하여 입력 중에는 아무 동작도 하지 않도록 함
             }
         });
 
         return view;
     }
+    private void handleSearchTextChange(String newText) {
+        mNoticeList.clear();
+        mnoticeAdapter.notifyDataSetChanged();
 
-    private void searchCollection(String collectionPath, String keyword) {
-        db.collection(collectionPath)
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Firestore 문서를 NoticeItem 객체로 변환하여 리스트에 추가
-                                NoticeItem noticeItem = document.toObject(NoticeItem.class);
-                                // 공지사항의 제목에 키워드가 포함되어 있는 경우에만 추가
-                                if (noticeItem.getTitle().contains(keyword)) {
-                                    mNoticeList.add(noticeItem);
-                                }
-                            }
-                            mnoticeAdapter.setNoticeList(mNoticeList); // RecyclerView 업데이트
-                            Log.d("Firestore", "검색 결과: " + mNoticeList.size() + "개 항목");
-                        } else {
-                            // 검색 결과가 없거나 오류가 발생한 경우
-                            Toast.makeText(getContext(), "검색 결과가 없거나 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
-                            Log.e("Firestore", "데이터 가져오기 실패", task.getException());
-                        }
-                    }
-                });
+        if (newText.isEmpty()) {
+            mnoticeAdapter.notifyDataSetChanged();
+            return;
+        }
+
+        String[] keywords = newText.split(" ");
+
+        for (String keyword : keywords) {
+            searchCollection("학사", keyword);
+            searchCollection("장학", keyword);
+            searchCollection("취창업", keyword);
+            searchCollection("국제교류", keyword);
+            searchCollection("일반", keyword);
+            searchCollection("행사", keyword);
+            searchCollection("메카트로닉스", keyword);
+            searchCollection("컴퓨터공학", keyword);
+            searchCollection("바이오메디컬", keyword);
+            searchCollection("녹색기술융합", keyword);
+            searchCollection("응용화학", keyword);
+        }
+
+        mnoticeAdapter.notifyDataSetChanged();
     }
 
+    private void searchCollection(String collectionPath, String keyword) {
+        Task<QuerySnapshot> task = db.collection(collectionPath)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get();
+
+        task.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        NoticeItem noticeItem = document.toObject(NoticeItem.class);
+                        if (noticeItem.getTitle().contains(keyword)) {
+                            mNoticeList.add(noticeItem);
+                        }
+                    }
+                    mnoticeAdapter.setNoticeList(mNoticeList); // RecyclerView 업데이트
+                    Log.d("Firestore", "검색 결과: " + mNoticeList.size() + "개 항목");
+                } else {
+                    Toast.makeText(getContext(), "검색 결과가 없거나 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "데이터 가져오기 실패", task.getException());
+                }
+            }
+        });
+
+        taskList.add(task);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

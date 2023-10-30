@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.LinearLayout; // LinearLayout을 import 추가
 
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -24,6 +26,7 @@ public class HomeFragment extends Fragment {
     private NoticeAdapter mNoticeAdapter;
     private ArrayList<NoticeItem> mNoticeItems;
     private LinearLayout categoryLayout;
+    private ListenerRegistration listenerRegistration; // ListenerRegistration 변수 추가
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +45,11 @@ public class HomeFragment extends Fragment {
         String[] collectionPaths = {"학사", "장학", "취창업", "국제교류", "일반", "행사"};
 
         mNoticeItems.clear(); // 기존 데이터 지우기
+
+        // 이전 리스너를 제거
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
 
         // 인덱스 변수를 사용하여 컬렉션 경로 배열을 순차적으로 접근
         int currentIndex = 0;
@@ -81,5 +89,14 @@ public class HomeFragment extends Fragment {
                         Log.e("Firestore", "데이터 가져오기 실패", task.getException());
                     }
                 });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
+
     }
 }

@@ -91,13 +91,6 @@ public class Gong1Fragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, false, getContext(), mRecyclerView));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-
-//        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
-//        String buttonLabel = "저장"; // 버튼 레이블 설정
-//        int buttonColor = Color.GREEN; // 버튼 색상 설정
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, false, getContext()));
-//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
         return view;
     }
 }

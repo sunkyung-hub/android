@@ -76,13 +76,6 @@ public class BookmarkFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, true, getContext(), mRecyclerView));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-//        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_delete); // 삭제 아이콘 리소스
-//        String buttonLabel = "삭제"; // 버튼 레이블 설정
-//        int buttonColor = Color.RED; // 버튼 색상 설정
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, true, getContext()));
-//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-
         return view;
     }
 }

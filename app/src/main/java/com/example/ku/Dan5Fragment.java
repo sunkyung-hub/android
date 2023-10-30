@@ -79,9 +79,9 @@ public class Dan5Fragment extends Fragment {
 
         // Swipe 기능 추가
         // RecyclerView에 Swipe 기능 추가 (보관함 화면임을 나타내는 isArchiveScreen 변수 추가)
-//        Drawable deleteIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, deleteIcon, false, getContext()));
-//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        Drawable saveIcon = getResources().getDrawable(R.drawable.ic_bookmark); // 삭제 아이콘 리소스
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(mNoticeAdapter, saveIcon, false, getContext(), mRecyclerView));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         return view;
     }
